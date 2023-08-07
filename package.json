@@ -1,0 +1,23 @@
+{
+  "name": "sona-shoot-em-up-gamebyeyeland",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Game.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eyeland/Sona-Shoot-Em-Up-GameBy_eyeland.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eyeland/Sona-Shoot-Em-Up-GameBy_eyeland/issues"
+  },
+  "homepage": "https://github.com/eyeland/Sona-Shoot-Em-Up-GameBy_eyeland#readme",
+  "dependencies": {
+    "phaser3-rex-plugins": "^1.60.4"
+  }
+}

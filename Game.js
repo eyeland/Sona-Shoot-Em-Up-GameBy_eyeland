@@ -1,3 +1,5 @@
+
+
 class GameScene extends Phaser.Scene {
     constructor() {
         super({ key: "GameScene" });
@@ -12,12 +14,13 @@ class GameScene extends Phaser.Scene {
     }
 
     preload() {
-     
+
         // Load your assets here (e.g., player sprite, background, etc.)
         this.load.image("background", "0.png");
         this.load.image("sona", "sona.png");
         this.load.image("enemy", "enemy-mumu.png");
         this.load.image("bullet", "rocket.png");
+
     }
 
     create() {
@@ -26,8 +29,8 @@ class GameScene extends Phaser.Scene {
 
         // Create the game canvas
         this.gameCanvas = this.sys.game.canvas;
-      
 
+        this.joyStick = new JoyStick('joyDiv');
 
         // Add the start button
         this.startButton = this.add
@@ -202,6 +205,15 @@ class GameScene extends Phaser.Scene {
             const upDownSpeed =
                 playerSpeed *
                 (this.cursors.up.isDown ? -1 : this.cursors.down.isDown ? 1 : 0);
+            
+            // ----Oncreen Controller 
+
+            // Call the handleJoystickInput function to start the animation loop
+            this.handleJoystickInput();
+
+
+
+            // ---------
 
             // Update player position
             this.player.x += leftRightSpeed;
@@ -211,7 +223,6 @@ class GameScene extends Phaser.Scene {
             const halfPlayerWidth = 15; // Half of the player's width (30/2)
             const halfPlayerHeight = 15; // Half of the player's height (30/2)
             const minX = halfPlayerWidth;
-            console.log(minX);
             const minY = halfPlayerHeight;
             const maxX = this.sys.game.config.width - halfPlayerWidth;
             const maxY = this.sys.game.config.height - halfPlayerHeight;
@@ -259,7 +270,6 @@ class GameScene extends Phaser.Scene {
             // Shoot a bullet in the direction of the player
             const bullet = this.physics.add.sprite(enemy.x, enemy.y, "bullet");
             bullet.setScale(0.08);
-            console.log(angleToPlayer);
             bullet.rotation = adjustedRotation;
             this.physics.moveTo(bullet, this.player.x, this.player.y, bulletSpeed);
 
@@ -286,6 +296,24 @@ class GameScene extends Phaser.Scene {
         }
     }
 
+    joyStickLogic(valueX, valueY) {
+        const maxSpeed = 4;
+                // Scale the joystick values from -100 to 100 to -1 to 1 (speed ratio)
+        const speedX = valueX / 100;
+        const speedY = -valueY / 100;
+
+                // Calculate the new position (x and y)
+        this.player.x = this.player.x + speedX * maxSpeed; // Use maxSpeed for normalization
+        this.player.y = this.player.y + speedY * maxSpeed; // Use maxSpeed for normalization
+    
+    }
+
+    handleJoystickInput() {
+                // Call the updateShapePosition function with the joystick input values
+            this.joyStickLogic(this.joyStick.GetX(), this.joyStick.GetY());
+        console.log(this.joyStick.GetX())
+    }
+
 
 
 
@@ -305,7 +333,8 @@ const config = {
             debug: true,
         },
     },
-    
+
 };
 
 const game = new Phaser.Game(config);
+
